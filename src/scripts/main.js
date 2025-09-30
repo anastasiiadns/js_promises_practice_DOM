@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!settled) {
         settled = true;
         cleanup();
-
         // eslint-disable-next-line prefer-promise-reject-errors
         reject('First promise was rejected');
       }
