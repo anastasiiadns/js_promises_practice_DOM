@@ -21,10 +21,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const firstPromise = new Promise((resolve, reject) => {
     let settled = false;
 
+    function cleanup() {
+      clearTimeout(timer);
+      document.removeEventListener('click', clickHandler);
+    }
+
     const timer = setTimeout(() => {
       if (!settled) {
         settled = true;
-        reject(new Error('First promise was rejected'));
+        cleanup();
+
+        // eslint-disable-next-line prefer-promise-reject-errors
+        reject('First promise was rejected');
       }
     }, 3000);
 
@@ -37,8 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
       settled = true;
-      clearTimeout(timer);
-      document.removeEventListener('click', clickHandler);
+      cleanup();
       resolve('First promise was resolved');
     };
 
